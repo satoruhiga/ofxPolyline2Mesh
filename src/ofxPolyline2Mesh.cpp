@@ -45,7 +45,7 @@ void ofxPolyline2Mesh::clear()
 
 void ofxPolyline2Mesh::addVertex(const ofVec3f& v)
 {
-	if (!vertexes.empty() && vertexes.back().position.distance(v) == 0) return;
+	if (!vertexes.empty() && vertexes.back().position.distance(v) < 0.001) return;
 
 	current_vertex.position = v;
 	vertexes.push_back(current_vertex);
@@ -117,32 +117,37 @@ void ofxPolyline2Mesh::updateMesh()
 {
 	needs_update = false;
 
-	if (vertexes.size() <= 2) return;
+	if (vertexes.size() < 2) return;
 	mesh.clear();
 
 	const size_t num_segment = shape.size();
 
 	ofQuaternion glob;
-	glob.makeRotate((vertexes[0].position - vertexes[1].position).normalized(), ofVec3f(-1, 0, 0));
-	glob *= ofQuaternion(90, ofVec3f(0, -1, 0));
-	glob = glob.inverse();
 
 	// begin cap
 	{
 		const Vertex &vtx1 = vertexes[0];
-		float s = vtx1.size;
-		const ofColor& c = vtx1.color;
-		const ofVec3f& n = glob * ofVec3f(0, 0, -1);
+		const Vertex &vtx2 = vertexes[1];
+		
+		glob.makeRotate((vtx1.position - vtx2.position).normalized(), ofVec3f(-1, 0, 0));
+		glob *= ofQuaternion(90, ofVec3f(0, -1, 0));
+		glob = glob.inverse();
 
 		ofMatrix4x4 m = glob;
 		m.postMultTranslate(vtx1.position);
+		
+		float s = vtx1.size;
 		m.glScale(s, s, s);
+		
+		ofMatrix4x4 rot = m.getRotate();
+		const ofColor& c = vtx1.color;
+		const ofVec3f& n = rot.preMult(ofVec3f(0, 0, -1));
 
 		for (int i = 0; i < num_segment; i++)
 		{
 			last_segments[i] = m.preMult(shape[i]);
 		}
-
+		
 		for (int i = 0; i < num_segment - 1; i++)
 		{
 			const ofVec3f &p1 = shape[i];
@@ -219,15 +224,16 @@ void ofxPolyline2Mesh::updateMesh()
 		Vertex &vtx2 = vertexes[vertexes.size() - 1];
 
 		ofMatrix4x4 m = glob;
-		m.postMultTranslate(vertexes.back().position);
+		m.postMultTranslate(vtx2.position);
 
 		float s = vtx2.size;
 		m.glScale(s, s, s);
 
 		pushSegment(vtx2.color, vtx1.color, m);
 
+		ofMatrix4x4 rot = m.getRotate();
 		const ofColor& c = vtx2.color;
-		const ofVec3f& n = glob * ofVec3f(0, 0, 1);
+		const ofVec3f& n = rot.preMult(ofVec3f(0, 0, -1));
 
 		for (int i = 0; i < num_segment - 1; i++)
 		{
@@ -249,8 +255,6 @@ void ofxPolyline2Mesh::updateMesh()
 void ofxPolyline2Mesh::pushSegment(const ofColor& c2, const ofColor& c1,
 				 const ofMatrix4x4 &m)
 {
-	ofMatrix4x4 rot = m.getRotate();
-
 	for (int i = 0; i < shape.size(); i++)
 	{
 		const ofVec3f &p = m.preMult(shape[i]);

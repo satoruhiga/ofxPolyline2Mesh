@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		605C4086153F48E900BF4A77 /* ofxPolyline2Mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 605C4015153F48E900BF4A77 /* ofxPolyline2Mesh.cpp */; };
+		60DAE74B1545AB43007CF0C9 /* ofxMesh2TriMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60DAE7491545AB43007CF0C9 /* ofxMesh2TriMesh.cpp */; };
 		BBAB23CB13894F3D00AA2426 /* GLUT.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBAB23BE13894E4700AA2426 /* GLUT.framework */; };
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
 		E45BE97B0E8CC7DD009D7055 /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE9710E8CC7DD009D7055 /* AGL.framework */; };
@@ -60,6 +61,8 @@
 /* Begin PBXFileReference section */
 		605C4015153F48E900BF4A77 /* ofxPolyline2Mesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxPolyline2Mesh.cpp; sourceTree = "<group>"; };
 		605C4016153F48E900BF4A77 /* ofxPolyline2Mesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxPolyline2Mesh.h; sourceTree = "<group>"; };
+		60DAE7491545AB43007CF0C9 /* ofxMesh2TriMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxMesh2TriMesh.cpp; sourceTree = "<group>"; };
+		60DAE74A1545AB43007CF0C9 /* ofxMesh2TriMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxMesh2TriMesh.h; sourceTree = "<group>"; };
 		BBAB23BE13894E4700AA2426 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = ../../../libs/glut/lib/osx/GLUT.framework; sourceTree = "<group>"; };
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E45BE9710E8CC7DD009D7055 /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
@@ -120,6 +123,8 @@
 		605C4014153F48E900BF4A77 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				60DAE7491545AB43007CF0C9 /* ofxMesh2TriMesh.cpp */,
+				60DAE74A1545AB43007CF0C9 /* ofxMesh2TriMesh.h */,
 				605C4015153F48E900BF4A77 /* ofxPolyline2Mesh.cpp */,
 				605C4016153F48E900BF4A77 /* ofxPolyline2Mesh.h */,
 			);
@@ -297,6 +302,7 @@
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* testApp.cpp in Sources */,
 				605C4086153F48E900BF4A77 /* ofxPolyline2Mesh.cpp in Sources */,
+				60DAE74B1545AB43007CF0C9 /* ofxMesh2TriMesh.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

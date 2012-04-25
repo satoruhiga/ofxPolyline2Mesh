@@ -1,26 +1,84 @@
 #include "testApp.h"
 
 #include "ofxPolyline2Mesh.h"
+#include "ofxMesh2TriMesh.h"
 
-ofxPolyline2Mesh poly;
+ofxMesh2TriMesh mesh;
+ofMesh render_mesh;
 ofLight light;
 
 void reset_polyline()
 {
-	poly.clear();
+	mesh.clear();
 	
 	float s = 300;
 	
-	for (int i = 0; i < 30; i++)
 	{
-		ofVec3f v;
-		v.x = ofRandom(-s, s);
-		v.y = ofRandom(-s, s);
-		v.z = ofRandom(-s, s);
+		ofMesh m;
+		m.setMode(OF_PRIMITIVE_LINE_STRIP);
 		
-		poly.width(ofRandom(10, 30));
-		poly.color(ofColor::fromHsb(ofRandom(255), 255, 255));
-		poly.addVertex(v);
+		for (int i = 0; i < 10; i++)
+		{
+			ofVec3f v;
+			v.x = ofRandom(-s, s);
+			v.y = ofRandom(-s, s);
+			v.z = ofRandom(-s, s);
+			
+			m.addColor(ofColor::fromHsb(ofRandom(255), 255, 255));
+			m.addVertex(v);
+		}
+		mesh.add(m);
+	}
+	
+	{
+		ofMesh m;
+		m.setMode(OF_PRIMITIVE_LINES);
+		
+		for (int i = 0; i < 10; i++)
+		{
+			ofVec3f v;
+			v.x = ofRandom(-s, s);
+			v.y = ofRandom(-s, s);
+			v.z = ofRandom(-s, s);
+			
+			m.addColor(ofColor::fromHsb(ofRandom(255), 255, 255));
+			m.addVertex(v);
+		}
+		mesh.add(m);
+	}
+	
+	{
+		ofMesh m;
+		m.setMode(OF_PRIMITIVE_TRIANGLES);
+		
+		for (int i = 0; i < 12; i++)
+		{
+			ofVec3f v;
+			v.x = ofRandom(-s, s);
+			v.y = ofRandom(-s, s);
+			v.z = ofRandom(-s, s);
+			
+			m.addColor(ofColor::fromHsb(ofRandom(255), 255, 255));
+			m.addVertex(v);
+		}
+		mesh.add(m);
+	}
+
+	{
+		ofMesh m;
+		m.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
+		
+		for (int i = 0; i < 12; i++)
+		{
+			ofVec3f v;
+			v.x = ofRandom(-s, s);
+			v.y = ofRandom(-s, s);
+			v.z = ofRandom(-s, s);
+			
+			m.addColor(ofColor::fromHsb(ofRandom(255), 255, 255));
+			m.addVertex(v);
+		}
+		mesh.add(m);
 	}
 }
 
@@ -30,10 +88,10 @@ void testApp::setup()
 	ofSetVerticalSync(true);
 	ofSetFrameRate(60);
 	
+	ofSetColor(255, 0, 0);
 	ofBackground(255);
 	
-	poly.setupTube(64);
-	
+	ofSetLineWidth(30);
 	reset_polyline();
 	
 	ofSetGlobalAmbientColor(ofColor(180));
@@ -42,6 +100,7 @@ void testApp::setup()
 //--------------------------------------------------------------
 void testApp::update()
 {
+	render_mesh = mesh.getMesh();
 }
 
 //--------------------------------------------------------------
@@ -56,8 +115,7 @@ void testApp::draw()
 	
 	ofRotate(ofGetElapsedTimef() * 20, 0, 1, 0);
 	
-	ofMesh &m = poly.getMesh();
-	m.draw();
+	render_mesh.draw();
 	
 	cam.end();
 	
@@ -67,7 +125,10 @@ void testApp::draw()
 //--------------------------------------------------------------
 void testApp::keyPressed(int key)
 {
-	reset_polyline();
+	if (key == ' ')
+		reset_polyline();
+	else if (key == 's')
+		mesh.save("out.obj");
 }
 
 //--------------------------------------------------------------
